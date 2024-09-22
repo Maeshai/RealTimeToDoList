@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const socketIo = require('socket.io');
 const app = express();
 
+// Import task routes
+const taskRoutes = require('./routes/taskRoutes');
+
 // Create the server
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -18,6 +21,9 @@ mongoose.connect('mongodb://localhost:27017/todo', {
 // Middleware
 app.use(express.json());
 
+// Use the task routes
+app.use('/api/tasks', taskRoutes);
+
 // Test route
 app.get('/', (req, res) => {
     res.send('Server is running');
@@ -28,3 +34,4 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
